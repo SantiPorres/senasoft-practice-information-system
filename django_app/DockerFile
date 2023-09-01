@@ -1,0 +1,15 @@
+FROM python:3-slim
+
+ENV PYTHONUNBUFFERED=1
+ENV C_FORCE_ROOT=1
+ENV DJANGODIR=/django_app
+ENV REQDIR=requirements
+
+RUN mkdir $DJANGODIR
+WORKDIR $DJANGODIR
+COPY $DJANGODIR/$REQDIR $REQDIR
+
+RUN apt-get update && apt-get install -y gettext
+RUN pip3 install -r requirements/development.txt
+
+COPY . $DJANGODIR

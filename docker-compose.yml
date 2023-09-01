@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  pgdb:
+    image: postgres:15.3
+    container_name: is_pgdb
+    environment:
+    - POSTGRES_DB=information_system
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+    ports:
+    - '5433:5432'
+
+  backend:
+    build:
+      context: .
+      dockerfile: django_app/DockerFile
+    container_name: is_backend
+    command: bash -c 'python manage.py runserver 0.0.0.0:8000'
+    volumes:
+    - ./django_app/:/django_app
+    ports:
+    - '8000:8000'
+    depends_on:
+      - pgdb
+
+  frontend:
+    build:
+      context: .
+      dockerfile: vue_app/DockerFile
+    container_name: is_frontend
+    command: npm run serve 
+    volumes:
+    - ./vue_app/:/vue_app
+    ports:
+    - '8080:8080'
