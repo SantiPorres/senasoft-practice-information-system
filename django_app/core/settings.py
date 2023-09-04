@@ -19,8 +19,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
 
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
 
     'formation_area',
     'environmental',
@@ -28,9 +31,22 @@ INSTALLED_APPS = [
     'utils',
 ]
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
+    "corsheaders.middleware.CorsMiddleware",
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -65,10 +81,21 @@ DATABASES = {
         'NAME': 'information_system',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'is_pgdb',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
+
+"""DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'information_system',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'pgdb',
+        'PORT': '5432',
+    }
+}"""
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -84,6 +111,11 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
 ]
 
 

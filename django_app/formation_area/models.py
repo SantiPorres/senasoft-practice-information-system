@@ -8,8 +8,8 @@ class FormationArea(BaseModel):
         ACTIVE = 'AT', 'Active'
         INACTIVE = 'IN', 'Inactive'
 
-    name = models.CharField(default=str(uuid.uuid4()))
-    description = models.CharField()
+    name = models.CharField(max_length=25, default=str(uuid.uuid4()))
+    description = models.CharField(max_length=1000)
 
     status = models.CharField(
         max_length=2,
@@ -29,8 +29,8 @@ class SubFormationArea(BaseModel):
         ACTIVE = 'AT', 'Active'
         INACTIVE = 'IN', 'Inactive'
 
-    name = models.CharField(default=str(uuid.uuid4()))
-    description = models.CharField()
+    name = models.CharField(max_length=25, default=str(uuid.uuid4()))
+    description = models.CharField(max_length=1000)
 
     formation_area = models.ForeignKey(
         FormationArea, 
@@ -56,7 +56,7 @@ class FormationEnvironment(BaseModel):
         ACTIVE = 'AT', 'Active'
         INACTIVE = 'IN', 'Inactive'
 
-    name = models.CharField(default=str(uuid.uuid4()))
+    name = models.CharField(max_length=25, default=str(uuid.uuid4()))
     capacity = models.PositiveSmallIntegerField(default=5)
 
     formation_area = models.ForeignKey(
