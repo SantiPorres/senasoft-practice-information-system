@@ -1,35 +1,33 @@
 from django.db import models
-from utils.models import BaseModel
+from utils.models import BaseFormationAreaSubEnvironmentModel
 import uuid
 
 
-class FormationArea(BaseModel):
-    class Status(models.TextChoices):
-        ACTIVE = 'AT', 'Active'
-        INACTIVE = 'IN', 'Inactive'
+class FormationArea(BaseFormationAreaSubEnvironmentModel):
 
-    name = models.CharField(max_length=25, default=str(uuid.uuid4()))
+    name = models.CharField(
+        max_length=36, 
+        default=str(uuid.uuid4()),
+        unique=True
+    )
     description = models.CharField(max_length=1000)
 
-    status = models.CharField(
-        max_length=2,
-        choices=Status.choices,
-        default=Status.INACTIVE
-    )
-
-    def __str__(self):
-        return self.name
+    class Meta:
+        db_table = 'formation_area'
+        verbose_name = 'formation_area'
+        verbose_name_plural = 'formation_areas'
     
     def get_absolute_url(self):
         return f'/{self.slug}'
 
 
-class SubFormationArea(BaseModel):
-    class Status(models.TextChoices):
-        ACTIVE = 'AT', 'Active'
-        INACTIVE = 'IN', 'Inactive'
+class SubFormationArea(BaseFormationAreaSubEnvironmentModel):
 
-    name = models.CharField(max_length=25, default=str(uuid.uuid4()))
+    name = models.CharField(
+        max_length=36, 
+        default=str(uuid.uuid4()),
+        unique=True
+    )
     description = models.CharField(max_length=1000)
 
     formation_area = models.ForeignKey(
@@ -38,25 +36,22 @@ class SubFormationArea(BaseModel):
         on_delete=models.CASCADE
     )
 
-    status = models.CharField(
-        max_length=2,
-        choices=Status.choices,
-        default=Status.INACTIVE
-    )
-
-    def __str__(self):
-        return self.name
+    class Meta:
+        db_table = 'sub_formation_area'
+        verbose_name = 'sub_formation_area'
+        verbose_name_plural = 'sub_formation_areas'
     
     def get_absolute_url(self):
         return f'/{self.formation_area}/{self.slug}'
 
 
-class FormationEnvironment(BaseModel):
-    class Status(models.TextChoices):
-        ACTIVE = 'AT', 'Active'
-        INACTIVE = 'IN', 'Inactive'
+class FormationEnvironment(BaseFormationAreaSubEnvironmentModel):
 
-    name = models.CharField(max_length=25, default=str(uuid.uuid4()))
+    name = models.CharField(
+        max_length=36, 
+        default=str(uuid.uuid4()),
+        unique=True
+    )
     capacity = models.PositiveSmallIntegerField(default=5)
 
     formation_area = models.ForeignKey(
@@ -71,14 +66,10 @@ class FormationEnvironment(BaseModel):
         on_delete=models.CASCADE
     )
 
-    status = models.CharField(
-        max_length=2,
-        choices=Status.choices,
-        default=Status.INACTIVE
-    )
-
-    def __str__(self):
-        return self.name
+    class Meta:
+        db_table = 'formation_environment'
+        verbose_name = 'formation_environment'
+        verbose_name_plural = 'formation_environments'
 
     def get_absolute_url(self):
         return f'/{self.formation_area}/{self.sub_formation_area}/{self.slug}/{self.id}'

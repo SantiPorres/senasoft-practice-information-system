@@ -18,7 +18,7 @@ class FormationEnvironmentSerializer(serializers.ModelSerializer):
         )
 
 class SubFormationAreaSerializer(serializers.ModelSerializer):
-    formation_environments = FormationEnvironmentSerializer(many=True)
+    formation_environments = FormationEnvironmentSerializer(many=True, read_only=True)
 
     class Meta:
         model = SubFormationArea
@@ -36,7 +36,7 @@ class SubFormationAreaSerializer(serializers.ModelSerializer):
 
 
 class FormationAreaSerializer(serializers.ModelSerializer):
-    sub_formation_areas = SubFormationAreaSerializer(many=True)
+    sub_formation_areas = SubFormationAreaSerializer(many=True, read_only=True)
 
     class Meta:
         model = FormationArea
@@ -60,7 +60,6 @@ class CreateFormationAreaSerializer(serializers.ModelSerializer):
         fields = (
             "name",
             "description",
-            "slug",
             "status",
         )
 

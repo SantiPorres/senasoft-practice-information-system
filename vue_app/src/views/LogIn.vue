@@ -9,8 +9,8 @@
         <form @submit.prevent="submitForm">
           <div class="my-5">
             <div class="form-floating mb-3">
-              <input type="text" id='floatingInput' class="form-control" v-model="username">
-              <label for="floatingInput">Username</label>
+              <input type="text" id='floatingInput' class="form-control" v-model="personal_id_number">
+              <label for="floatingInput">Personal ID number</label>
             </div>
             <div class="form-floating mb-3">
               <input type="password" id="floatingInput" class="form-control" v-model="password">
@@ -41,7 +41,7 @@ export default {
   name: 'LogIn',
   data() {
     return {
-      username: '',
+      personal_id_number: '',
       password: '',
       errors: []
     }
@@ -56,7 +56,7 @@ export default {
       localStorage.removeItem('token')
 
       const formData = {
-        username: this.username,
+        personal_id_number: this.personal_id_number,
         password: this.password
       }
 

@@ -25,12 +25,14 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
 
+    'user',
     'formation_area',
     'environmental',
     'shaw',
     'utils',
 ]
 
+AUTH_USER_MODEL = 'user.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

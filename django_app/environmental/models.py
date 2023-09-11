@@ -1,11 +1,9 @@
 from django.db import models
-from formation_area.models import SubFormationArea, FormationArea
-from utils.models import BaseModel
+from formation_area.models import SubFormationArea, FormationArea, FormationEnvironment
+from user.models import User
+from utils.models import BaseProccessModel
 
-class EnvironmentalProccess(BaseModel):
-    class Status(models.TextChoices):
-        ACTIVE = 'AT', 'Active'
-        INACTIVE = 'IN', 'Inactive'
+class EnvironmentalProccess(BaseProccessModel):
 
     formation_area = models.ForeignKey(
         FormationArea,
@@ -19,7 +17,21 @@ class EnvironmentalProccess(BaseModel):
         on_delete=models.CASCADE
     )
 
-    title = models.CharField(max_length=255)
+    formation_environment = models.ForeignKey(
+        FormationEnvironment,
+        related_name='environmental_proccesses',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
+    )
+
+    created_by = models.ForeignKey(
+        User,
+        related_name='environmental_proccesses',
+        on_delete=models.CASCADE
+    )
+
+    title = models.CharField(max_length=50)
     date = models.DateField()
     activity = models.CharField(max_length=255)
     environmental_aspect = models.CharField(max_length=255)
@@ -30,14 +42,10 @@ class EnvironmentalProccess(BaseModel):
     nature = models.CharField(max_length=255)
     observations = models.CharField(max_length=255)
 
-    status = models.CharField(
-        max_length=2,
-        choices=Status.choices,
-        default=Status.INACTIVE
-    )
-
-    def __str__(self):
-        return self.title
+    class Meta:
+        db_table = 'environmental_proccess'
+        verbose_name = 'environmental_proccess'
+        verbose_name_plural = 'environmental_proccesses'
     
     def get_absolute_url(self):
         return f'/{self.formation_area}/{self.sub_formation_area}/{self.slug}'

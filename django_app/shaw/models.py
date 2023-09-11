@@ -1,11 +1,9 @@
 from django.db import models
 from formation_area.models import SubFormationArea, FormationArea, FormationEnvironment
-from utils.models import BaseModel
+from utils.models import BaseProccessModel
+from user.models import User
 
-class ShawProcess(BaseModel):
-    class Status(models.TextChoices):
-        ACTIVE = 'AT', 'Active'
-        INACTIVE = 'IN', 'Inactive'
+class ShawProcess(BaseProccessModel):
 
     formation_area = models.ForeignKey(
         FormationArea,
@@ -25,7 +23,13 @@ class ShawProcess(BaseModel):
         on_delete=models.CASCADE
     )
 
-    title = models.CharField(max_length=255)
+    created_by = models.ForeignKey(
+        User,
+        related_name='shaw_proccesses',
+        on_delete=models.CASCADE
+    )
+
+    title = models.CharField(max_length=50)
     date = models.DateField()
     danger_factor = models.CharField(max_length=255)
     danger_source = models.CharField(max_length=255)
@@ -40,11 +44,10 @@ class ShawProcess(BaseModel):
     risk_degree = models.CharField(max_length=255)
     danger_description = models.CharField(max_length=255)
 
-    status = models.CharField(
-        max_length=2,
-        choices=Status.choices,
-        default=Status.INACTIVE
-    )
+    class Meta:
+        db_table = 'shaw_proccess'
+        verbose_name = 'shaw_proccess'
+        verbose_name_plural = 'shaw_proccesses'
 
     def __str__(self):
         return self.title
