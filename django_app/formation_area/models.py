@@ -1,16 +1,16 @@
 from django.db import models
-from utils.models import BaseFormationAreaSubEnvironmentModel
+from utils.models import BaseSlugNameModel
 import uuid
 
 
-class FormationArea(BaseFormationAreaSubEnvironmentModel):
+class FormationArea(BaseSlugNameModel):
 
     name = models.CharField(
         max_length=36, 
         default=str(uuid.uuid4()),
         unique=True
     )
-    description = models.CharField(max_length=1000)
+    description = models.TextField(max_length=1000)
 
     class Meta:
         db_table = 'formation_area'
@@ -18,17 +18,17 @@ class FormationArea(BaseFormationAreaSubEnvironmentModel):
         verbose_name_plural = 'formation_areas'
     
     def get_absolute_url(self):
-        return f'/{self.slug}'
+        return f'api/formation-area/{self.slug}'
 
 
-class SubFormationArea(BaseFormationAreaSubEnvironmentModel):
+class SubFormationArea(BaseSlugNameModel):
 
     name = models.CharField(
         max_length=36, 
         default=str(uuid.uuid4()),
         unique=True
     )
-    description = models.CharField(max_length=1000)
+    description = models.TextField(max_length=1000)
 
     formation_area = models.ForeignKey(
         FormationArea, 
@@ -42,10 +42,10 @@ class SubFormationArea(BaseFormationAreaSubEnvironmentModel):
         verbose_name_plural = 'sub_formation_areas'
     
     def get_absolute_url(self):
-        return f'/{self.formation_area}/{self.slug}'
+        return f'api/formation-area/{self.formation_area}/sub_formation_area/{self.slug}'
 
 
-class FormationEnvironment(BaseFormationAreaSubEnvironmentModel):
+class FormationEnvironment(BaseSlugNameModel):
 
     name = models.CharField(
         max_length=36, 
@@ -72,4 +72,4 @@ class FormationEnvironment(BaseFormationAreaSubEnvironmentModel):
         verbose_name_plural = 'formation_environments'
 
     def get_absolute_url(self):
-        return f'/{self.formation_area}/{self.sub_formation_area}/{self.slug}/{self.id}'
+        return f'api/formation-area/{self.formation_area}/sub-formation-area/{self.sub_formation_area}/formation-environment/{self.slug}'

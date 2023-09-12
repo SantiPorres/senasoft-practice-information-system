@@ -64,49 +64,13 @@ class CreateFormationAreaSerializer(serializers.ModelSerializer):
         )
 
 
-"""class FormationEnvironmentSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = FormationEnvironment
-        fields = (
-            "id",
-            "name",
-            "capacity",
-            "slug",
-            "status",
-            "created_at",
-            "updated_at",
-            "get_absolute_url",
-        )
-
-class SubFormationAreaSerializer(serializers.ModelSerializer):
+class CreateSubFormationAreaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubFormationArea
         fields = (
-            "id",
             "name",
             "description",
-            'formation_area_id',
-            "slug",
+            "formation_area",
             "status",
-            "created_at",
-            "updated_at",
-            "get_absolute_url",
         )
-
-
-class FormationAreaSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = FormationArea
-        fields = (
-            "id",
-            "name",
-            "description",
-            "slug",
-            "status",
-            "created_at",
-            "updated_at",
-            "get_absolute_url",
-        )"""

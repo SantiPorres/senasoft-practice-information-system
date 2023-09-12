@@ -1,9 +1,9 @@
 from django.db import models
 from formation_area.models import SubFormationArea, FormationArea, FormationEnvironment
 from user.models import User
-from utils.models import BaseProccessModel
+from utils.models import BaseSlugTitleModel
 
-class EnvironmentalProccess(BaseProccessModel):
+class EnvironmentalProccess(BaseSlugTitleModel):
 
     formation_area = models.ForeignKey(
         FormationArea,

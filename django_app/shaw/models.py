@@ -1,9 +1,9 @@
 from django.db import models
 from formation_area.models import SubFormationArea, FormationArea, FormationEnvironment
-from utils.models import BaseProccessModel
+from utils.models import BaseSlugTitleModel
 from user.models import User
 
-class ShawProcess(BaseProccessModel):
+class ShawProcess(BaseSlugTitleModel):
 
     formation_area = models.ForeignKey(
         FormationArea,

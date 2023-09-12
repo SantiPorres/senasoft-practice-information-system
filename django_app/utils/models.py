@@ -1,9 +1,10 @@
 from django.db import models
-import uuid
 from django.template.defaultfilters import slugify
 
 from django.db.models.query import QuerySet
 from uuid import uuid4
+
+from utils.constants import Status as status
 
 class ActiveManager(models.Manager):
     def get_queryset(self) -> QuerySet:
@@ -13,21 +14,22 @@ class ActiveManager(models.Manager):
 
 class BaseModel(models.Model):
 
-    class Status(models.TextChoices):
-        ACTIVE = 'AT', 'Active'
-        INACTIVE = 'IN', 'Inactive'
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid4,
+        editable=False
+    )
 
     slug = models.SlugField(
         unique=True, 
-        default=str(uuid.uuid4()),
+        default=str(uuid4()),
         max_length=100,
         db_index=True
     )
 
     status = models.CharField(
         max_length=2,
-        choices=Status.choices,
-        default=Status.ACTIVE
+        default=status.ACTIVE
     )
     
     created_at = models.DateTimeField(auto_now_add=True)
@@ -43,7 +45,7 @@ class BaseModel(models.Model):
         return self.slug
         
 
-class BaseFormationAreaSubEnvironmentModel(BaseModel):
+class BaseSlugNameModel(BaseModel):
     def save(self, *args, **kwargs):
         name_uuid_slugify = f'{slugify(self.name)}-{uuid4().hex[:6]}'
         self.slug = name_uuid_slugify
@@ -53,7 +55,7 @@ class BaseFormationAreaSubEnvironmentModel(BaseModel):
         abstract = True
     
 
-class BaseProccessModel(BaseModel):
+class BaseSlugTitleModel(BaseModel):
     def save(self, *args, **kwargs):
         title_uuid_slugify = f'{slugify(self.title)}-{uuid4().hex[:6]}'
         self.slug = title_uuid_slugify
