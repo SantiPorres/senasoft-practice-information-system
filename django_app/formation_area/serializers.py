@@ -55,13 +55,13 @@ class FormationAreaSerializer(serializers.ModelSerializer):
 
 class CreateFormationAreaSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = FormationArea
-        fields = (
-            "name",
-            "description",
-            "status",
-        )
+    name = serializers.CharField(
+        max_length=36
+    )
+
+    description = serializers.CharField(
+        max_length=1000
+    )
 
 
 class CreateSubFormationAreaSerializer(serializers.ModelSerializer):

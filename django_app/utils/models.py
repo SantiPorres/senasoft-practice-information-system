@@ -4,7 +4,6 @@ from django.template.defaultfilters import slugify
 from django.db.models.query import QuerySet
 from uuid import uuid4
 
-from utils.constants import Status as status
 
 class ActiveManager(models.Manager):
     def get_queryset(self) -> QuerySet:
@@ -13,6 +12,10 @@ class ActiveManager(models.Manager):
         )
 
 class BaseModel(models.Model):
+
+    class Status(models.TextChoices):
+        ACTIVE = 'AT', 'Active'
+        INACTIVE = 'IN', 'Inactive'
 
     id = models.UUIDField(
         primary_key=True,
@@ -29,7 +32,8 @@ class BaseModel(models.Model):
 
     status = models.CharField(
         max_length=2,
-        default=status.ACTIVE
+        choices=Status.choices,
+        default=Status.ACTIVE
     )
     
     created_at = models.DateTimeField(auto_now_add=True)

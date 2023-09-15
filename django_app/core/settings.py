@@ -1,13 +1,19 @@
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+from corsheaders.defaults import default_headers
+
+import os 
+import environ
+
+env = environ.Env()
+
+environ.Env.read_env()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-edq_jmc_umn^=p_2&k17ju^45da%$ejwi)l$)^_d@ndileql%&'
+SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -19,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'corsheaders',
 
     'rest_framework',
@@ -80,24 +87,13 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'information_system',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
+        'HOST': env('DATABASE_HOST'),
+        'PORT': env('DATABASE_PORT'),
     }
 }
-
-"""DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'information_system',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'pgdb',
-        'PORT': '5432',
-    }
-}"""
 
 
 AUTH_PASSWORD_VALIDATORS = [

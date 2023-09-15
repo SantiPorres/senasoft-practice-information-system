@@ -4,7 +4,7 @@ from environmental import views
 
 
 urlpatterns = [
-    path('', views.LatestEnvironmentalProccesses.as_view(), name='formation_areas_list'),
+    path('', views.LatestEnvironmentalProccesses.as_view(), name='latest_environmental_proccesses'),
     #path('create-formation-area/', views.FormationAreaDetail.as_view(), name='create_formation_area'),
     #path('formation-areas/<slug:formation-area-slug>/', views.FormationAreaDetail.as_view(), name='formation_area_detail'),
     #path('sub_formation_areas/', views.SubFormationAreaList.as_view()),
