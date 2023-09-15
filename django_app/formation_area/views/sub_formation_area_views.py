@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from utils.views import GetObject
+from utils.views import GetObject, check_if_sub_formation_area_name_exists, check_if_formation_area_exists_and_active
 
 
 class SubFormationAreaList(APIView):
@@ -28,28 +28,32 @@ class SubFormationAreaDetail(APIView):
 
 
 @api_view(['POST'])
-def create_sub_formation_area(request):
+def create_sub_formation_area(request, formation_area_slug):
 
-    GetObject().get_formation_area_by_slug(request.data['formation_area'])
+    serializer = CreateSubFormationAreaSerializer(data=request.data)
 
-    if GetObject().get_sub_formation_area_by_name(
-        request.data['formation_area'], 
-        request.data['name']
-    ):
+    if serializer.is_valid() == False:
+        return Response(
+            serializer.errors, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    if check_if_formation_area_exists_and_active(formation_area_slug) == False:
+        return Response(
+            {'detail': 'Unexisting formation area.'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    formation_area = GetObject().get_formation_area_by_slug(formation_area_slug)
+    
+    if check_if_sub_formation_area_name_exists(request.data['name']):
         return Response(
             {'detail': 'sub_formation_area with this name already exists.'},
             status=status.HTTP_400_BAD_REQUEST
         )
 
-    serializer = CreateSubFormationAreaSerializer(data=request.data)
-    if serializer.is_valid():
-        SubFormationArea.objects.create(**serializer.validated_data)
-        return Response(
-            {'message': 'Sub formation area successfully created'}, 
-            status=status.HTTP_200_OK
-        )
-    else:
-        return Response(
-            serializer.errors, 
-            status=status.HTTP_400_BAD_REQUEST
-        )
+    SubFormationArea.objects.create(**serializer.validated_data, formation_area=formation_area)
+    return Response(
+        {'message': 'Sub formation area successfully created'}, 
+        status=status.HTTP_200_OK
+    )

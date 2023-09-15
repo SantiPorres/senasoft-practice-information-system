@@ -4,14 +4,27 @@ from .models import FormationArea, SubFormationArea, FormationEnvironment
 
 @admin.register(FormationArea)
 class FormationAreaAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('name',)}
-
+    fields = [
+        'name',
+        'description',
+        'status',
+    ]
 
 @admin.register(SubFormationArea)
 class SubFormationAreaAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('name',)}
+    fields = [
+        'name',
+        'description',
+        'status',
+        'formation_area',
+    ]
 
 
 @admin.register(FormationEnvironment)
 class FormationEnvironmentAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('name',)}
+    fields = [
+        'name',
+        'capacity',
+        'status',
+        'sub_formation_area',
+    ]

@@ -21,7 +21,7 @@ class FormationAreaList(APIView):
     
 
 class FormationAreaDetail(APIView):
-    def get(self, request, formation_area_slug, format=None):
+    def get(self, request, formation_area_slug = None, format=None):
         formation_area = GetObject().get_formation_area_by_slug(formation_area_slug)
         serializer = FormationAreaSerializer(formation_area)
         

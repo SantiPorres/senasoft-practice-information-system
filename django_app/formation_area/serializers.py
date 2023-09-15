@@ -63,14 +63,29 @@ class CreateFormationAreaSerializer(serializers.ModelSerializer):
         max_length=1000
     )
 
+    class Meta:
+        model = FormationArea
+        fields = (
+            "name",
+            "description",
+            "status",
+        )
+
 
 class CreateSubFormationAreaSerializer(serializers.ModelSerializer):
+
+    name = serializers.CharField(
+        max_length=36
+    )
+
+    description = serializers.CharField(
+        max_length=1000
+    )
 
     class Meta:
         model = SubFormationArea
         fields = (
             "name",
             "description",
-            "formation_area",
             "status",
         )
