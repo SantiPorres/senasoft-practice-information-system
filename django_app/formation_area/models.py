@@ -8,9 +8,15 @@ class FormationArea(BaseSlugNameModel):
     name = models.CharField(
         max_length=36, 
         default=str(uuid.uuid4()),
-        unique=True
+        unique=True,
+        null=False,
+        blank=False
     )
-    description = models.TextField(max_length=1000)
+    description = models.TextField(
+        max_length=1000,
+        null=True,
+        blank=True
+    )
 
     class Meta:
         db_table = 'formation_area'
@@ -26,9 +32,15 @@ class SubFormationArea(BaseSlugNameModel):
     name = models.CharField(
         max_length=36, 
         default=str(uuid.uuid4()),
-        unique=True
+        unique=True,
+        null=False,
+        blank=False
     )
-    description = models.TextField(max_length=1000)
+    description = models.TextField(
+        max_length=1000,
+        null=True,
+        blank=True
+    )
 
     formation_area = models.ForeignKey(
         FormationArea, 
@@ -43,6 +55,9 @@ class SubFormationArea(BaseSlugNameModel):
     
     def get_absolute_url(self):
         return f'api/formation-area/{self.formation_area}/sub-formation-area/{self.slug}/'
+    
+    def get_formation_area_slug(self):
+        return self.formation_area.slug
 
 
 class FormationEnvironment(BaseSlugNameModel):
@@ -50,9 +65,16 @@ class FormationEnvironment(BaseSlugNameModel):
     name = models.CharField(
         max_length=36, 
         default=str(uuid.uuid4()),
-        unique=True
+        unique=True,
+        null=False,
+        blank=False
     )
-    capacity = models.PositiveSmallIntegerField(default=5)
+
+    capacity = models.PositiveSmallIntegerField(
+        default=5,
+        null=False,
+        blank=False
+    )
 
     formation_area = models.ForeignKey(
         FormationArea, 
@@ -73,3 +95,9 @@ class FormationEnvironment(BaseSlugNameModel):
 
     def get_absolute_url(self):
         return f'api/formation-area/{self.formation_area}/sub-formation-area/{self.sub_formation_area}/formation-environment/{self.slug}/'
+
+    def get_formation_area_slug(self):
+        return self.formation_area.slug
+    
+    def get_sub_formation_area_slug(self):
+        return self.sub_formation_area.slug

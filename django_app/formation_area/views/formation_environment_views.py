@@ -22,11 +22,32 @@ class FormationEnvironmentList(APIView):
             sub_formation_area_slug, 
             format=None
         ):
+
+        if formation_area_slug == None:
+            return HttpResponseBadRequest
+        
+        if sub_formation_area_slug == None:
+            return HttpResponseBadRequest
+        
+        if check_if_formation_area_exists_and_active(formation_area_slug) == False:
+            return Response(
+                {'detail': 'Unexisting formation_area.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        if check_if_sub_formation_area_exists_and_active(sub_formation_area_slug) == False:
+            return Response(
+                {'detail': 'Unexisting sub_formation_area.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        GetObject().get_sub_formation_area_by_slug(formation_area_slug, sub_formation_area_slug)
+
         formation_environments = FormationEnvironment.active.filter(
             formation_area__slug=formation_area_slug,
             sub_formation_area__slug=sub_formation_area_slug,
         )
-        serializer = FormationEnvironment(
+        serializer = FormationEnvironmentSerializer(
             formation_environments, 
             many=True
         )
@@ -43,6 +64,19 @@ class FormationEnvironmentDetail(APIView):
             formation_environment_slug, 
             format=None
         ):
+
+        if check_if_formation_area_exists_and_active(formation_area_slug) == False:
+            return Response(
+                {'detail': 'Unexisting formation_area.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        if check_if_sub_formation_area_exists_and_active(sub_formation_area_slug) == False:
+            return Response(
+                {'detail': 'Unexisting sub_formation_area.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
         formation_environment = GetObject().get_formation_environment_by_slug(
             formation_area_slug, 
             sub_formation_area_slug,
@@ -56,7 +90,7 @@ class FormationEnvironmentDetail(APIView):
 @api_view(['POST'])
 def create_formation_environment(
     request, 
-    formation_area_slug,
+    formation_area_slug_parameter,
     sub_formation_area_slug,
 ):
 
@@ -64,7 +98,7 @@ def create_formation_environment(
 
     serializer.is_valid(raise_exception=True)
     
-    if check_if_formation_area_exists_and_active(formation_area_slug) == False:
+    if check_if_formation_area_exists_and_active(formation_area_slug_parameter) == False:
         return Response(
             {'detail': 'Unexisting formation_area.'},
             status=status.HTTP_404_NOT_FOUND
@@ -72,15 +106,21 @@ def create_formation_environment(
     
     if check_if_sub_formation_area_exists_and_active(sub_formation_area_slug) == False:
         return Response(
-            {'detail': 'Unexisting sub_existing_area.'},
+            {'detail': 'Unexisting sub_formation_area.'},
             status=status.HTTP_404_NOT_FOUND
         )
     
-    formation_area = GetObject().get_formation_area_by_slug(formation_area_slug)
-    sub_formation_area = GetObject().get_sub_formation_area_by_slug(sub_formation_area_slug)
+    sub_formation_area = GetObject().get_sub_formation_area_by_slug(
+        formation_area_slug_parameter, 
+        sub_formation_area_slug
+    )
 
-    if formation_area['slug'] != sub_formation_area['slug']:
+    formation_area_slug = sub_formation_area.get_formation_area_slug()
+
+    if formation_area_slug_parameter != formation_area_slug:
         raise HttpResponseBadRequest
+    
+    formation_area = GetObject().get_formation_area_by_slug(formation_area_slug)
     
     if check_if_formation_environment_name_exists(request.data['name']):
         return Response(

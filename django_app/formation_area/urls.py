@@ -27,7 +27,7 @@ urlpatterns = [
 
     #Sub Formation Area urls
     path(
-        '<slug:formation_area_slug>/sub-formation-area/', 
+        '<slug:formation_area_slug>/sub-formation-area', 
         SubFormationAreaList.as_view(), 
         name='sub_formation_areas_list'
     ),
@@ -47,12 +47,12 @@ urlpatterns = [
     #Formation Environment urls
     path(
         '<slug:formation_area_slug>/sub-formation-area/'\
-            '<slug:sub_formation_area_slug>/formation-environment/', 
+            '<slug:sub_formation_area_slug>/formation-environment', 
         FormationEnvironmentList.as_view(), 
         name='formation_environment_list'
     ),
     path(
-        '<slug:formation_area_slug>/sub-formation-area/'\
+        '<slug:formation_area_slug_parameter>/sub-formation-area/'\
             '<slug:sub_formation_area_slug>/formation-environment/create', 
         create_formation_environment, 
         name='create_formation_environment'

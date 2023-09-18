@@ -1,10 +1,11 @@
 from .models import FormationArea, SubFormationArea, FormationEnvironment
 from rest_framework import serializers
 
-from utils.views import GetObject
-
 
 class FormationEnvironmentSerializer(serializers.ModelSerializer):
+
+    name = serializers.CharField(max_length=36)
+    capacity = serializers.IntegerField(max_value=50)
 
     class Meta:
         model = FormationEnvironment
@@ -17,6 +18,8 @@ class FormationEnvironmentSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
             "get_absolute_url",
+            "get_formation_area_slug",
+            "get_sub_formation_area_slug",
         )
 
         read_only_fields = (
@@ -25,10 +28,15 @@ class FormationEnvironmentSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
             'get_absolute_url',
+            'get_formation_area_slug'
         )
 
 
 class SubFormationAreaSerializer(serializers.ModelSerializer):
+
+    name = serializers.CharField(max_length=36)
+    description = serializers.CharField(max_length=1000)
+
     formation_environments = FormationEnvironmentSerializer(many=True, read_only=True)
 
     class Meta:
@@ -42,6 +50,7 @@ class SubFormationAreaSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
             "get_absolute_url",
+            "get_formation_area_slug",
             "formation_environments"
         )
 
@@ -51,11 +60,16 @@ class SubFormationAreaSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
             'get_absolute_url',
+            'get_formation_area_slug',
             'formation_environments',
         )
 
 
 class FormationAreaSerializer(serializers.ModelSerializer):
+
+    name = serializers.CharField(max_length=36)
+    description = serializers.CharField(max_length=1000)
+
     sub_formation_areas = SubFormationAreaSerializer(many=True, read_only=True)
 
     class Meta:

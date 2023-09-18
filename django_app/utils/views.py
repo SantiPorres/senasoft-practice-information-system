@@ -40,27 +40,27 @@ class GetObject:
         
     def get_formation_environment_by_slug(
             self, 
-            formation_area_slug, 
+            formation_area_slug_parameter, 
             sub_formation_area_slug,
             formation_environment_slug
         ):
-        if check_if_formation_area_exists_and_active(formation_area_slug) == False:
-            raise Http404
         
-        if check_if_sub_formation_area_exists_and_active(sub_formation_area_slug) == False:
-            raise Http404
-        
-        sub_formation_area = self.get_sub_formation_area_by_slug(formation_area_slug, sub_formation_area_slug)
+        sub_formation_area = self.get_sub_formation_area_by_slug(
+            formation_area_slug_parameter, 
+            sub_formation_area_slug
+        )
 
-        formation_area = self.get_formation_area_by_id(sub_formation_area['formation_area'])
+        formation_area_slug = sub_formation_area.get_formation_area_slug()
 
-        if formation_area['slug'] != formation_area_slug:
+        if formation_area_slug_parameter != formation_area_slug:
             raise HttpResponseBadRequest
+
+        formation_area = GetObject().get_formation_area_by_slug(formation_area_slug)
 
         try:
             return FormationEnvironment.active.get(
-                formation_area=formation_area['id'], 
-                sub_formation_area=sub_formation_area['slug'], 
+                formation_area=formation_area.id, 
+                sub_formation_area=sub_formation_area.id, 
                 slug=formation_environment_slug
             )
         except FormationEnvironment.DoesNotExist:
