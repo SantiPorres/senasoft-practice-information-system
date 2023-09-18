@@ -1,6 +1,8 @@
 from .models import FormationArea, SubFormationArea, FormationEnvironment
 from rest_framework import serializers
 
+from utils.views import GetObject
+
 
 class FormationEnvironmentSerializer(serializers.ModelSerializer):
 
@@ -17,6 +19,15 @@ class FormationEnvironmentSerializer(serializers.ModelSerializer):
             "get_absolute_url",
         )
 
+        read_only_fields = (
+            'id',
+            'slug',
+            'created_at',
+            'updated_at',
+            'get_absolute_url',
+        )
+
+
 class SubFormationAreaSerializer(serializers.ModelSerializer):
     formation_environments = FormationEnvironmentSerializer(many=True, read_only=True)
 
@@ -32,6 +43,15 @@ class SubFormationAreaSerializer(serializers.ModelSerializer):
             "updated_at",
             "get_absolute_url",
             "formation_environments"
+        )
+
+        read_only_fields = (
+            'id',
+            'slug',
+            'created_at',
+            'updated_at',
+            'get_absolute_url',
+            'formation_environments',
         )
 
 
@@ -52,40 +72,11 @@ class FormationAreaSerializer(serializers.ModelSerializer):
             "sub_formation_areas"
         )
 
-
-class CreateFormationAreaSerializer(serializers.ModelSerializer):
-
-    name = serializers.CharField(
-        max_length=36
-    )
-
-    description = serializers.CharField(
-        max_length=1000
-    )
-
-    class Meta:
-        model = FormationArea
-        fields = (
-            "name",
-            "description",
-            "status",
-        )
-
-
-class CreateSubFormationAreaSerializer(serializers.ModelSerializer):
-
-    name = serializers.CharField(
-        max_length=36
-    )
-
-    description = serializers.CharField(
-        max_length=1000
-    )
-
-    class Meta:
-        model = SubFormationArea
-        fields = (
-            "name",
-            "description",
-            "status",
+        read_only_fields = (
+            'id',
+            'slug',
+            'created_at',
+            'updated_at',
+            'get_absolute_url',
+            'sub_formation_areas',
         )

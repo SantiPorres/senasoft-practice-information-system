@@ -1,7 +1,7 @@
 from django.http import Http404
 
 from ..models import SubFormationArea
-from ..serializers import SubFormationAreaSerializer, CreateSubFormationAreaSerializer
+from ..serializers import SubFormationAreaSerializer
 
 from rest_framework import viewsets, status
 from rest_framework.views import APIView
@@ -30,13 +30,9 @@ class SubFormationAreaDetail(APIView):
 @api_view(['POST'])
 def create_sub_formation_area(request, formation_area_slug):
 
-    serializer = CreateSubFormationAreaSerializer(data=request.data)
+    serializer = SubFormationAreaSerializer(data=request.data)
 
-    if serializer.is_valid() == False:
-        return Response(
-            serializer.errors, 
-            status=status.HTTP_400_BAD_REQUEST
-        )
+    serializer.is_valid(raise_exception=True)
     
     if check_if_formation_area_exists_and_active(formation_area_slug) == False:
         return Response(

@@ -3,6 +3,8 @@ from django.contrib.auth.hashers import make_password
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
+from utils.constants import PASSWORD_HASH_BEGINNING
+
 
 class CustomUserManager(BaseUserManager):
     def _create_user(self, personal_id_number, email, password, first_name, last_name, mobile, **extra_fields):
@@ -70,7 +72,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = 'users'
 
     def save(self, *args, **kwargs):
-        if self.password[:13] == 'pbkdf2_sha256':
+        if self.password[:13] == PASSWORD_HASH_BEGINNING:
            return super().save(*args, **kwargs)
         else:
             self.password = make_password(self.password)

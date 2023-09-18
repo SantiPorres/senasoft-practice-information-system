@@ -1,1 +1,2 @@
 API_URL='api'
+PASSWORD_HASH_BEGINNING='pbkdf2_sha256'
