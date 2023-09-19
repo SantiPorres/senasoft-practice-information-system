@@ -1,10 +1,10 @@
 from django.urls import path
 
-from environmental import views
+from .views import LatestEnvironmentalProcesses
 
 
 urlpatterns = [
-    path('', views.LatestEnvironmentalProccesses.as_view(), name='latest_environmental_proccesses'),
+    path('', LatestEnvironmentalProcesses.as_view(), name='latest_environmental_processes'),
     #path('create-formation-area/', views.FormationAreaDetail.as_view(), name='create_formation_area'),
     #path('formation-areas/<slug:formation-area-slug>/', views.FormationAreaDetail.as_view(), name='formation_area_detail'),
     #path('sub_formation_areas/', views.SubFormationAreaList.as_view()),

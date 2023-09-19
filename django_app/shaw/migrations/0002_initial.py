@@ -19,21 +19,21 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='shawprocess',
             name='created_by',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='shaw_proccesses', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='shaw_processes', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='shawprocess',
             name='formation_area',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='shaw_proccesses', to='formation_area.formationarea'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='shaw_processes', to='formation_area.formationarea'),
         ),
         migrations.AddField(
             model_name='shawprocess',
             name='formation_environment',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='shaw_proccesses', to='formation_area.formationenvironment'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='shaw_processes', to='formation_area.formationenvironment'),
         ),
         migrations.AddField(
             model_name='shawprocess',
             name='sub_formation_area',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='shaw_proccesses', to='formation_area.subformationarea'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='shaw_processes', to='formation_area.subformationarea'),
         ),
     ]

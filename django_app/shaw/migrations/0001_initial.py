@@ -36,9 +36,9 @@ class Migration(migrations.Migration):
                 ('danger_description', models.CharField(max_length=255)),
             ],
             options={
-                'verbose_name': 'shaw_proccess',
-                'verbose_name_plural': 'shaw_proccesses',
-                'db_table': 'shaw_proccess',
+                'verbose_name': 'shaw_process',
+                'verbose_name_plural': 'shaw_processes',
+                'db_table': 'shaw_process',
             },
         ),
     ]

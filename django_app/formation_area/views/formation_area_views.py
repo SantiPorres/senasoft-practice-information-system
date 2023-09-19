@@ -1,10 +1,7 @@
-from django.shortcuts import render
-from django.http import Http404
+from ..models.formation_area_model import FormationArea
+from ..serializers.formation_area_serializer import FormationAreaSerializer
 
-from ..models import FormationArea
-from ..serializers import FormationAreaSerializer
-
-from rest_framework import viewsets, status
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -36,9 +33,12 @@ def create_formation_area(request):
 
     if check_if_formation_area_name_exists(request.data['name']):
         return Response(
-            {'detail': 'formation_area with this name already exists.'},
+            {'message': 'formation_area with this name already exists.'},
             status=status.HTTP_400_BAD_REQUEST
         )
     else:
         FormationArea.objects.create(**serializer.validated_data)
-        return Response({'message': 'Formation area successfully created'}, status=status.HTTP_200_OK)
+        return Response(
+            {'message': 'Formation area successfully created'}, 
+            status=status.HTTP_201_CREATED
+        )

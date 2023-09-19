@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import FormationArea, SubFormationArea, FormationEnvironment
+from .models.formation_environment_model import FormationEnvironment
+from .models.formation_area_model import FormationArea
+from .models.sub_formation_area_model import SubFormationArea
 
 
 @admin.register(FormationArea)

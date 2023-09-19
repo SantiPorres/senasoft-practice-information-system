@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='EnvironmentalProccess',
+            name='EnvironmentalProcess',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('slug', models.SlugField(default='3939af1e-4025-46cb-aa10-1d3b9eaf2df6', max_length=100, unique=True)),
@@ -32,9 +32,9 @@ class Migration(migrations.Migration):
                 ('observations', models.CharField(max_length=255)),
             ],
             options={
-                'verbose_name': 'environmental_proccess',
-                'verbose_name_plural': 'environmental_proccesses',
-                'db_table': 'environmental_proccess',
+                'verbose_name': 'environmental_process',
+                'verbose_name_plural': 'environmental_processes',
+                'db_table': 'environmental_process',
             },
         ),
     ]

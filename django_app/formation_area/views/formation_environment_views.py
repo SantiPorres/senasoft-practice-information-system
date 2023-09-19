@@ -1,9 +1,9 @@
 from django.http import HttpResponseBadRequest
 
-from ..models import FormationEnvironment
-from ..serializers import FormationEnvironmentSerializer
+from ..models.formation_environment_model import FormationEnvironment
+from ..serializers.formation_environment_serializer import FormationEnvironmentSerializer
 
-from rest_framework import viewsets, status
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -31,13 +31,13 @@ class FormationEnvironmentList(APIView):
         
         if check_if_formation_area_exists_and_active(formation_area_slug) == False:
             return Response(
-                {'detail': 'Unexisting formation_area.'},
+                {'message': 'Unexisting formation_area.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         
         if check_if_sub_formation_area_exists_and_active(sub_formation_area_slug) == False:
             return Response(
-                {'detail': 'Unexisting sub_formation_area.'},
+                {'message': 'Unexisting sub_formation_area.'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -67,13 +67,13 @@ class FormationEnvironmentDetail(APIView):
 
         if check_if_formation_area_exists_and_active(formation_area_slug) == False:
             return Response(
-                {'detail': 'Unexisting formation_area.'},
+                {'message': 'Unexisting formation_area.'},
                 status=status.HTTP_404_NOT_FOUND
             )
         
         if check_if_sub_formation_area_exists_and_active(sub_formation_area_slug) == False:
             return Response(
-                {'detail': 'Unexisting sub_formation_area.'},
+                {'message': 'Unexisting sub_formation_area.'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -100,13 +100,13 @@ def create_formation_environment(
     
     if check_if_formation_area_exists_and_active(formation_area_slug_parameter) == False:
         return Response(
-            {'detail': 'Unexisting formation_area.'},
+            {'message': 'Unexisting formation_area.'},
             status=status.HTTP_404_NOT_FOUND
         )
     
     if check_if_sub_formation_area_exists_and_active(sub_formation_area_slug) == False:
         return Response(
-            {'detail': 'Unexisting sub_formation_area.'},
+            {'message': 'Unexisting sub_formation_area.'},
             status=status.HTTP_404_NOT_FOUND
         )
     
@@ -124,7 +124,7 @@ def create_formation_environment(
     
     if check_if_formation_environment_name_exists(request.data['name']):
         return Response(
-            {'detail': 'formation_environment with this name already exists.'},
+            {'message': 'formation_environment with this name already exists.'},
             status=status.HTTP_400_BAD_REQUEST
         )
 
@@ -135,5 +135,5 @@ def create_formation_environment(
     )
     return Response(
         {'message': 'formation_environment successfully created'}, 
-        status=status.HTTP_200_OK
+        status=status.HTTP_201_CREATED
     )

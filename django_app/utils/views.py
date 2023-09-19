@@ -1,6 +1,8 @@
 from django.http import Http404, HttpResponseBadRequest
 
-from formation_area.models import FormationArea, SubFormationArea, FormationEnvironment
+from formation_area.models.formation_area_model import FormationArea
+from formation_area.models.sub_formation_area_model import SubFormationArea
+from formation_area.models.formation_environment_model import FormationEnvironment
 
 
 class GetObject:

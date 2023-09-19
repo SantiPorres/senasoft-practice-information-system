@@ -17,23 +17,23 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name='environmentalproccess',
+            model_name='environmentalprocess',
             name='created_by',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='environmental_proccesses', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='environmental_processes', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
-            model_name='environmentalproccess',
+            model_name='environmentalprocess',
             name='formation_area',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='environmental_proccesses', to='formation_area.formationarea'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='environmental_processes', to='formation_area.formationarea'),
         ),
         migrations.AddField(
-            model_name='environmentalproccess',
+            model_name='environmentalprocess',
             name='formation_environment',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='environmental_proccesses', to='formation_area.formationenvironment'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='environmental_processes', to='formation_area.formationenvironment'),
         ),
         migrations.AddField(
-            model_name='environmentalproccess',
+            model_name='environmentalprocess',
             name='sub_formation_area',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='environmental_proccesses', to='formation_area.subformationarea'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='environmental_processes', to='formation_area.subformationarea'),
         ),
     ]

@@ -1,5 +1,7 @@
 from django.db import models
-from formation_area.models import SubFormationArea, FormationArea, FormationEnvironment
+from formation_area.models.formation_area_model import FormationArea
+from formation_area.models.sub_formation_area_model import SubFormationArea
+from formation_area.models.formation_environment_model import FormationEnvironment
 from utils.models import BaseSlugTitleModel
 from user.models import User
 
@@ -7,25 +9,25 @@ class ShawProcess(BaseSlugTitleModel):
 
     formation_area = models.ForeignKey(
         FormationArea,
-        related_name='shaw_proccesses',
+        related_name='shaw_processes',
         on_delete=models.CASCADE
     )
 
     sub_formation_area = models.ForeignKey(
         SubFormationArea,
-        related_name='shaw_proccesses',
+        related_name='shaw_processes',
         on_delete=models.CASCADE
     )
 
     formation_environment = models.ForeignKey(
         FormationEnvironment,
-        related_name='shaw_proccesses',
+        related_name='shaw_processes',
         on_delete=models.CASCADE
     )
 
     created_by = models.ForeignKey(
         User,
-        related_name='shaw_proccesses',
+        related_name='shaw_processes',
         on_delete=models.CASCADE
     )
 
@@ -45,9 +47,9 @@ class ShawProcess(BaseSlugTitleModel):
     danger_description = models.CharField(max_length=255)
 
     class Meta:
-        db_table = 'shaw_proccess'
-        verbose_name = 'shaw_proccess'
-        verbose_name_plural = 'shaw_proccesses'
+        db_table = 'shaw_process'
+        verbose_name = 'shaw_process'
+        verbose_name_plural = 'shaw_processes'
 
     def __str__(self):
         return self.title

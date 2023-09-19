@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import EnvironmentalProccess
+from .models import EnvironmentalProcess
 
-@admin.register(EnvironmentalProccess)
-class EnvironmentalProccessAdmin(admin.ModelAdmin):
+@admin.register(EnvironmentalProcess)
+class EnvironmentalProcessAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}

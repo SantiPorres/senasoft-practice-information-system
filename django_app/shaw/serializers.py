@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from .models import EnvironmentalProcess
+from .models import ShawProcess
 
 
-class EnvironmentalProcessSerializer(serializers.Serializer):
+class ShawProcessSerializer(serializers.Serializer):
 
     class Meta:
-        models = EnvironmentalProcess
+        models = ShawProcess
 
         fields = (
             'id',

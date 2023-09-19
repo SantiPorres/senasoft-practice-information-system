@@ -1,25 +1,28 @@
 from django.db import models
-from formation_area.models import SubFormationArea, FormationArea, FormationEnvironment
+
+from formation_area.models.formation_area_model import FormationArea
+from formation_area.models.sub_formation_area_model import SubFormationArea
+from formation_area.models.formation_environment_model import FormationEnvironment
 from user.models import User
 from utils.models import BaseSlugTitleModel
 
-class EnvironmentalProccess(BaseSlugTitleModel):
+class EnvironmentalProcess(BaseSlugTitleModel):
 
     formation_area = models.ForeignKey(
         FormationArea,
-        related_name='environmental_proccesses',
+        related_name='environmental_processes',
         on_delete=models.CASCADE
     )
 
     sub_formation_area = models.ForeignKey(
         SubFormationArea,
-        related_name='environmental_proccesses',
+        related_name='environmental_processes',
         on_delete=models.CASCADE
     )
 
     formation_environment = models.ForeignKey(
         FormationEnvironment,
-        related_name='environmental_proccesses',
+        related_name='environmental_processes',
         on_delete=models.CASCADE,
         blank=True,
         null=True
@@ -27,7 +30,7 @@ class EnvironmentalProccess(BaseSlugTitleModel):
 
     created_by = models.ForeignKey(
         User,
-        related_name='environmental_proccesses',
+        related_name='environmental_processes',
         on_delete=models.CASCADE
     )
 
@@ -43,9 +46,10 @@ class EnvironmentalProccess(BaseSlugTitleModel):
     observations = models.CharField(max_length=255)
 
     class Meta:
-        db_table = 'environmental_proccess'
-        verbose_name = 'environmental_proccess'
-        verbose_name_plural = 'environmental_proccesses'
+        db_table = 'environmental_process'
+        verbose_name = 'environmental_process'
+        verbose_name_plural = 'environmental_processes'
     
     def get_absolute_url(self):
         return f'/{self.formation_area}/{self.sub_formation_area}/{self.slug}'
+    

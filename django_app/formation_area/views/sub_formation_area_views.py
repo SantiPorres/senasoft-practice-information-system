@@ -1,7 +1,7 @@
 from django.http import HttpResponseBadRequest
 
-from ..models import SubFormationArea
-from ..serializers import SubFormationAreaSerializer
+from ..models.sub_formation_area_model import SubFormationArea
+from ..serializers.sub_formation_area_serializer import SubFormationAreaSerializer
 
 from rest_framework import status
 from rest_framework.views import APIView
@@ -24,7 +24,7 @@ class SubFormationAreaList(APIView):
 
         if check_if_formation_area_exists_and_active(formation_area_slug) == False:
             return Response(
-                {'detail': 'Unexisting formation_area.'},
+                {'message': 'Unexisting formation_area.'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -41,7 +41,7 @@ class SubFormationAreaDetail(APIView):
 
         if check_if_formation_area_exists_and_active(formation_area_slug) == False:
             return Response(
-                {'detail': 'Unexisting formation_area.'},
+                {'message': 'Unexisting formation_area.'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -63,7 +63,7 @@ def create_sub_formation_area(request, formation_area_slug):
     
     if check_if_formation_area_exists_and_active(formation_area_slug) == False:
         return Response(
-            {'detail': 'Unexisting formation_area.'},
+            {'message': 'Unexisting formation_area.'},
             status=status.HTTP_404_NOT_FOUND
         )
     
@@ -71,12 +71,12 @@ def create_sub_formation_area(request, formation_area_slug):
     
     if check_if_sub_formation_area_name_exists(request.data['name']):
         return Response(
-            {'detail': 'sub_formation_area with this name already exists.'},
+            {'message': 'sub_formation_area with this name already exists.'},
             status=status.HTTP_400_BAD_REQUEST
         )
 
     SubFormationArea.objects.create(**serializer.validated_data, formation_area=formation_area)
     return Response(
-        {'detail': 'sub_formation_area successfully created'}, 
+        {'message': 'sub_formation_area successfully created'}, 
         status=status.HTTP_201_CREATED
     )
