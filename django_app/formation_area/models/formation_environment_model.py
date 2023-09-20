@@ -11,7 +11,6 @@ class FormationEnvironment(BaseSlugNameModel):
     name = models.CharField(
         max_length=36, 
         default=str(uuid.uuid4()),
-        unique=True,
         null=False,
         blank=False
     )
@@ -38,6 +37,15 @@ class FormationEnvironment(BaseSlugNameModel):
         db_table = 'formation_environment'
         verbose_name = 'formation_environment'
         verbose_name_plural = 'formation_environments'
+        constraints = [
+            models.UniqueConstraint(
+                fields=[
+                    'sub_formation_area',
+                    'name'
+                ],
+                name='unique_name_per_sub_formation_area'
+            )
+        ]
 
     def get_absolute_url(self):
         return f'api/formation-area/{self.formation_area}/sub-formation-area/{self.sub_formation_area}/formation-environment/{self.slug}/'

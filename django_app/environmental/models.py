@@ -49,7 +49,32 @@ class EnvironmentalProcess(BaseSlugTitleModel):
         db_table = 'environmental_process'
         verbose_name = 'environmental_process'
         verbose_name_plural = 'environmental_processes'
+        ordering = ['-created_at']
+        constraints = [
+            models.UniqueConstraint(
+                fields=[
+                    'formation_area',
+                    'sub_formation_area',
+                    'formation_environment',
+                    'title',
+                ],
+                name='unique_title_per_formation_environment'
+            )
+        ]
     
     def get_absolute_url(self):
-        return f'/{self.formation_area}/{self.sub_formation_area}/{self.slug}'
+        return f'/{self.slug}'
     
+    def get_formation_area(self):
+        return self.formation_area.name
+    
+    def get_sub_formation_area_name(self):
+        return self.sub_formation_area.name
+    
+    def get_formation_environment_name(self):
+        return self.formation_environment.name
+    
+    def save(self, *args, **kwargs):
+        self.sub_formation_area = self.formation_environment.sub_formation_area
+        self.formation_area = self.sub_formation_area.formation_area
+        return super().save(*args, **kwargs)

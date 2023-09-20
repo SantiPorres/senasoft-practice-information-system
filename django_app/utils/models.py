@@ -6,10 +6,10 @@ from uuid import uuid4
 
 
 class ActiveManager(models.Manager):
-    """def get_queryset(self) -> QuerySet:
+    def get_queryset(self) -> QuerySet:
         return super().get_queryset().filter(
             status = BaseModel.Status.ACTIVE
-        )"""
+        )
     
 
 class BaseModel(models.Model):

@@ -11,12 +11,15 @@ from .serializers import EnvironmentalProcessSerializer
 class LatestEnvironmentalProcesses(APIView):
     def get(self, request, format=None):
         environmental_processes = EnvironmentalProcess.active.all()[0:10]
+
+        print(environmental_processes)
+
         serializer = EnvironmentalProcessSerializer(environmental_processes, many=True)
 
         return Response(serializer.data)
 
 
-class EnvironmentalProcessesList(APIView):
+class EnvironmentalProcessList(APIView):
     def get(self, request, format=None):
         environmental_processes = EnvironmentalProcess.active.all()
         serializer = EnvironmentalProcessSerializer(environmental_processes, many=True)
