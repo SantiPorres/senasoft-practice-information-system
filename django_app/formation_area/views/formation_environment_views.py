@@ -11,7 +11,8 @@ from rest_framework.decorators import api_view
 from utils.views import GetObject,\
     check_if_sub_formation_area_exists_and_active,\
     check_if_formation_area_exists_and_active,\
-    check_if_formation_environment_name_exists
+    check_if_formation_environment_name_exists,\
+    check_if_formation_environment_exists
 
 
 class FormationEnvironmentList(APIView):
@@ -136,4 +137,24 @@ def create_formation_environment(
     return Response(
         {'message': 'formation_environment successfully created'}, 
         status=status.HTTP_201_CREATED
+    )
+
+
+@api_view(['DELETE'])
+def delete_formation_environment(request, formation_environment_slug):
+    if check_if_formation_environment_exists(formation_environment_slug) == False:
+        return Response(
+            {'message': 'This formation environment area does not exist'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    formation_environment = FormationEnvironment.objects.get(
+        slug=formation_environment_slug
+    )
+
+    formation_environment.delete()
+
+    return Response(
+        {'message': 'Formation environment successfully deleted'},
+        status=status.HTTP_200_OK
     )

@@ -22,4 +22,9 @@ urlpatterns = [
         SubFormationAreaDetail.as_view(), 
         name='sub_formation_area_detail'
     ),
+    path(
+        '<slug:sub_formation_area_slug>/delete',
+        delete_sub_formation_area,
+        name='delete_sub_formation_area'
+    )
 ]

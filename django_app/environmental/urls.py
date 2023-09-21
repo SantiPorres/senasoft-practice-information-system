@@ -12,21 +12,21 @@ urlpatterns = [
     path(
         '', 
         EnvironmentalProcessList.as_view(), 
-        name='environmental_processes_list'
+        name='environmental_process_list'
     ),
     path(
         '<slug:environmental_process_slug>/', 
         EnvironmentalProcessDetail.as_view(), 
-        name='environmental_processes_detail'
+        name='environmental_process_detail'
     ),
     path(
         'create', 
         create_environmental_process, 
-        name='create_environmental_processes'
+        name='create_environmental_process'
     ),
     path(
         '<slug:environmental_process_slug>/delete',
         delete_environmental_proccess,
-        name='delete_environmental_processes'
+        name='delete_environmental_process'
     )
 ]

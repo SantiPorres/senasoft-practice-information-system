@@ -20,4 +20,9 @@ urlpatterns = [
         create_formation_area, 
         name='create_formation_area'
     ),
+    path(
+        '<slug:formation_area_slug>/delete',
+        delete_formation_area,
+        name='delete_formation_area'
+    )
 ]
