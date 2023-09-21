@@ -9,6 +9,7 @@ class EnvironmentalProcessSerializer(serializers.ModelSerializer):
 
         fields = (
             'id',
+            'formation_environment',
             'title',
             'date',
             'activity',
@@ -31,7 +32,13 @@ class EnvironmentalProcessSerializer(serializers.ModelSerializer):
         read_only_fields = (
             'id',
             'slug',
+            'get_formation_area_name',
+            'get_sub_formation_area_name',
+            'get_formation_environment_name',
             'created_by',
-            'created_at',
-            'updated_at',
+            'created_at'
+        )
+
+        write_only_fields = (
+            'formation_environment',
         )

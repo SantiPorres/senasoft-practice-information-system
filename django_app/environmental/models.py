@@ -6,6 +6,7 @@ from formation_area.models.formation_environment_model import FormationEnvironme
 from user.models import User
 from utils.models import BaseSlugTitleModel
 
+
 class EnvironmentalProcess(BaseSlugTitleModel):
 
     formation_area = models.ForeignKey(
@@ -58,14 +59,14 @@ class EnvironmentalProcess(BaseSlugTitleModel):
                     'formation_environment',
                     'title',
                 ],
-                name='unique_title_per_formation_environment'
+                name='unique_env_title_per_formation_environment'
             )
         ]
     
     def get_absolute_url(self):
         return f'/{self.slug}'
     
-    def get_formation_area(self):
+    def get_formation_area_name(self):
         return self.formation_area.name
     
     def get_sub_formation_area_name(self):

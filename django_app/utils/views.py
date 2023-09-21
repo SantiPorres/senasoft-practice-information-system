@@ -4,6 +4,8 @@ from formation_area.models.formation_area_model import FormationArea
 from formation_area.models.sub_formation_area_model import SubFormationArea
 from formation_area.models.formation_environment_model import FormationEnvironment
 
+from environmental.models import EnvironmentalProcess
+
 
 class GetObject:
     def get_formation_area_by_id(
@@ -119,3 +121,26 @@ def check_if_formation_environment_name_exists(request_name):
         return True
     except:
         return False
+    
+
+# Environmental Process Methods
+def check_if_environmental_process_exists(request_slug):
+    try:
+        EnvironmentalProcess.objects.get(slug=request_slug)
+        return True
+    except:
+        return False
+    
+def check_if_environmental_process_unique_constraint_exists(
+        environmental_process_title, 
+        formation_environment_id
+    ):
+    try:
+        EnvironmentalProcess.objects.get(
+            slug=environmental_process_title, 
+            formation_environmet=formation_environment_id
+        )
+        return True
+    except:
+        return False
+    

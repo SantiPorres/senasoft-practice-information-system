@@ -24,4 +24,9 @@ urlpatterns = [
         create_environmental_process, 
         name='create_environmental_processes'
     ),
+    path(
+        '<slug:environmental_process_slug>/delete',
+        delete_environmental_proccess,
+        name='delete_environmental_processes'
+    )
 ]
