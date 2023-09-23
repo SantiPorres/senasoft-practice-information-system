@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from utils.views import GetObject, check_if_formation_area_name_exists
+from utils.views import GetObject, check_if_formation_area_name_exists, check_if_formation_area_exists
 
 
 class FormationAreaList(APIView):
@@ -45,3 +45,23 @@ def create_formation_area(request):
             {'message': 'Formation area successfully created'}, 
             status=status.HTTP_201_CREATED
         )
+
+
+@api_view(['DELETE'])
+def delete_formation_area(request, formation_area_slug):
+    if check_if_formation_area_exists(formation_area_slug) == False:
+        return Response(
+            {'message': 'This formation area does not exist'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    formation_area = FormationArea.objects.get(
+        slug=formation_area_slug
+    )
+
+    formation_area.delete()
+
+    return Response(
+        {'message': 'Formation area successfully deleted'},
+        status=status.HTTP_200_OK
+    )

@@ -8,7 +8,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from utils.views import GetObject, check_if_sub_formation_area_name_exists, check_if_formation_area_exists_and_active
+from utils.views import GetObject, check_if_sub_formation_area_name_exists, \
+    check_if_formation_area_exists_and_active, check_if_sub_formation_area_exists
 
 
 class SubFormationAreaList(APIView):
@@ -79,4 +80,24 @@ def create_sub_formation_area(request, formation_area_slug):
     return Response(
         {'message': 'sub_formation_area successfully created'}, 
         status=status.HTTP_201_CREATED
+    )
+
+
+@api_view(['DELETE'])
+def delete_sub_formation_area(request, sub_formation_area_slug):
+    if check_if_sub_formation_area_exists(sub_formation_area_slug) == False:
+        return Response(
+            {'message': 'This sub formation area does not exist'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    sub_formation_area = SubFormationArea.objects.get(
+        slug=sub_formation_area_slug
+    )
+
+    sub_formation_area.delete()
+
+    return Response(
+        {'message': 'Sub formation area successfully deleted'},
+        status=status.HTTP_200_OK
     )

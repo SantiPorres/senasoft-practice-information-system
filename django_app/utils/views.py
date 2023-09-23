@@ -73,6 +73,13 @@ class GetObject:
 
 
 # Formation Area Methods
+def check_if_formation_area_exists(request_slug):
+    try: 
+        FormationArea.objects.get(slug=request_slug)
+        return True
+    except:
+        return False
+
 def check_if_formation_area_exists_and_active(request_slug):
     try: 
         FormationArea.active.get(slug=request_slug)
@@ -90,6 +97,13 @@ def check_if_formation_area_name_exists(request_name):
     
 
 # Sub Formation Area Methods
+def check_if_sub_formation_area_exists(request_slug):
+    try: 
+        SubFormationArea.objects.get(slug=request_slug)
+        return True
+    except:
+        return False
+
 def check_if_sub_formation_area_exists_and_active(request_slug):
     try: 
         SubFormationArea.active.get(slug=request_slug)
@@ -107,6 +121,13 @@ def check_if_sub_formation_area_name_exists(request_name):
     
 
 # Formation Environment Methods
+def check_if_formation_environment_exists(request_slug):
+    try: 
+        FormationEnvironment.objects.get(slug=request_slug)
+        return True
+    except:
+        return False
+
 def check_if_formation_environment_exists_and_active(request_slug):
     try: 
         FormationEnvironment.active.get(slug=request_slug)
