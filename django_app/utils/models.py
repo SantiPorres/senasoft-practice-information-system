@@ -1,3 +1,4 @@
+from typing import Any
 from django.db import models
 from django.template.defaultfilters import slugify
 
@@ -9,7 +10,7 @@ class ActiveManager(models.Manager):
     def get_queryset(self) -> QuerySet:
         return super().get_queryset().filter(
             status = BaseModel.Status.ACTIVE
-        )
+        )  
     
 
 class BaseModel(models.Model):

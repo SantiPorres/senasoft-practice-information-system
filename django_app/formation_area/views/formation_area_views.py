@@ -1,5 +1,6 @@
 from ..models.formation_area_model import FormationArea
 from ..serializers.formation_area_serializer import FormationAreaSerializer
+from ..decorators import group_required
 
 from rest_framework import status
 from rest_framework.views import APIView
@@ -10,7 +11,9 @@ from utils.views import GetObject, check_if_formation_area_name_exists
 
 
 class FormationAreaList(APIView):
+    @group_required('administrator')
     def get(self, request, format=None):
+        print(request.user.groups)
         formation_areas = FormationArea.objects.all()
         serializer = FormationAreaSerializer(formation_areas, many=True)
 
